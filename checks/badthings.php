@@ -14,7 +14,10 @@ class Bad_Checks implements themecheck {
 			'/uudecode/ims' => __( 'uudecode() is not allowed', 'theme-check' ),
 			'/str_rot13/ims' => __( 'str_rot13() is not allowed', 'theme-check' ),
 			'/cx=[0-9]{21}:[a-z0-9]{10}/' => __( 'Google search code detected', 'theme-check' ),
-			'/pub-[0-9]{16}/i' => __( 'Google advertising code detected', 'theme-check' )
+			'/pub-[0-9]{16}/i' => __( 'Google advertising code detected', 'theme-check' ),
+			'/sharesale/i' => __( 'Sharesale affiliate link detected', 'theme-check' ),
+			'/affiliate_id/i' => __( 'Potential affiliate link detected', 'theme-check' ),
+			'/(elementor_partner_id)|(wpbeaverbuilder.*?fla)/i' => __( 'Potential affiliate link detected', 'theme-check' ),
 			);
 
 		$grep = '';
@@ -26,7 +29,7 @@ class Bad_Checks implements themecheck {
 					$filename = tc_filename( $php_key );
 					$error = ltrim( trim( $matches[0], '(' ) );
 					$grep = tc_grep( $error, $php_key );
-					$this->error[] = sprintf('<span class="tc-lead tc-warning">'. __( 'WARNING', 'theme-check' ) . '</span>: ' . __( 'Found %1$s in the file %2$s. %3$s. %4$s', 'theme-check' ), '<strong>' . $error . '</strong>', '<strong>' . $filename . '</strong>', $check, $grep );
+					$this->error[] = sprintf('<span class="tc-lead tc-required">'. __( 'REQUIRED', 'theme-check' ) . '</span>: ' . __( 'Found %1$s in the file %2$s. %3$s. %4$s', 'theme-check' ), '<strong>' . $error . '</strong>', '<strong>' . $filename . '</strong>', $check, $grep );
 					$ret = false;
 				}
 			}
@@ -45,7 +48,7 @@ class Bad_Checks implements themecheck {
 					$filename = tc_filename( $php_key );
 					$error = ltrim( rtrim( $matches[0],'(' ) );
 					$grep = tc_grep( $error, $php_key );
-					$this->error[] = sprintf(__('<span class="tc-lead tc-warning">WARNING</span>: Found <strong>%1$s</strong> in the file <strong>%2$s</strong>. %3$s.%4$s', 'theme-check'), $error, $filename, $check, $grep);
+					$this->error[] = sprintf(__('<span class="tc-lead tc-required">REQUIRED</span>: Found <strong>%1$s</strong> in the file <strong>%2$s</strong>. %3$s.%4$s', 'theme-check'), $error, $filename, $check, $grep);
 					$ret = false;
 				}
 			}
